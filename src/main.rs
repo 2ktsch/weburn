@@ -18,7 +18,9 @@ async fn main() -> Result<(), Box<dyn Error>>  {
 
     let laser_port = env::var("PORT").unwrap_or(8080.to_string()).parse::<u16>().unwrap_or(8080u16);
 
-    let buffer_size = env::var("BUFFER_SIZE").unwrap_or(1024.to_string()).parse::<u32>().unwrap_or(1024);
+    // This is intended for grouping the gcode;
+    // the buffer in the machine is consumed faster than the individual http requests can be sent (which is why I did bulk mode)
+    let _buffer_size = env::var("BUFFER_SIZE").unwrap_or(1024.to_string()).parse::<u32>().unwrap_or(1024);
 
     let full_cancel: bool = env::var("AUTO_CANCEL_BULK_END").unwrap_or("false".to_string()).parse::<bool>().unwrap_or(false);
 
