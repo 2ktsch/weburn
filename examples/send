@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export FILE=$1
+
+export SUM=($(md5sum $FILE))
+
+cat $FILE | curl --data-binary "@-" -X POST "http://192.168.1.15:8080/process/upload?md5=${SUM[0]^^}"

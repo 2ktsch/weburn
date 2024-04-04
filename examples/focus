@@ -1,0 +1,9 @@
+#!/bin/bash
+
+X=$1
+Y=$2
+
+export X_OFFSET=$(($X + 12))
+export Y_OFFSET=$(($Y + 18))
+
+curl -X GET "http://192.168.1.15:8080/camera/measure_distance?x=$X_OFFSET&y=$Y_OFFSET"
