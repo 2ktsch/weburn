@@ -18,6 +18,8 @@ async fn main() -> Result<(), Box<dyn Error>>  {
 
     let laser_port = env::var("PORT").unwrap_or(8080.to_string()).parse::<u16>().unwrap_or(8080u16);
 
+    let buffer_size = env::var("BUFFER_SIZE").unwrap_or(1024.to_string()).parse::<u32>().unwrap_or(1024);
+
     let full_cancel: bool = env::var("AUTO_CANCEL_BULK_END").unwrap_or("false".to_string()).parse::<bool>().unwrap_or(false);
 
     let debug: bool = env::var("DEBUG").unwrap_or("false".to_string()).parse::<bool>().unwrap_or(false);
@@ -135,7 +137,7 @@ async fn main() -> Result<(), Box<dyn Error>>  {
                                 modo = Modes::WaitingForUser;
                                 println!("Sent! Remember to press the button so it starts :)");
                             } else {
-                                let _ = port.write("error".as_bytes());
+                                let _ = port.write("error\n".as_bytes());
                                 modo = Modes::Receiving;
                             }
                         },
