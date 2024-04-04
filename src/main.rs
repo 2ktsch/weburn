@@ -34,7 +34,7 @@ async fn main() -> Result<(), Box<dyn Error>>  {
 
     let wecreat_client = Client::builder().build()?;
     let mut port = SerialPort::open(serial_port, 2000000)?;
-    let _ = port.set_read_timeout(Duration::from_secs(3600));
+    let _ = port.set_read_timeout(Duration::from_secs(u64::MAX));
     let mut buffer  = [0; 256];
     port.flush().expect("");
     fn send_ok(port: &SerialPort) {
