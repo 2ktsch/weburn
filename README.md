@@ -1,7 +1,7 @@
 ### Hi everyone! 
 ## This is a bridge utility to use the WeCreat Vision 20W laser directly from LightBurn! :partying_face:
 The "WeCreat MakeIt!" software is really lacking, and there's no linux version.  Instead of exporting gcode and uploading it through wecreat, unlock useful features like framing and just pressing the button in software (and then the physical one). :)
-
+## [quick demo on youtube](https://youtu.be/16apgy4763g)
 > ## TL;DR [github repo](https://github.com/2ktsch/weburn)
 > Currently runs on Linux... should compile and work for Windows or Mac.
 > You need a null-modem software like tty0tty or com0com
