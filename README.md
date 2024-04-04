@@ -1,5 +1,16 @@
 ### Hi everyone! 
-## I've managed to control the WeCreat Vision **"directly"** (more on that in a bit) from LightBurn! :partying_face: 
+## This is a bridge utility to use the WeCreat Vision 20W laser directly from LightBurn! :partying_face:
+The "WeCreat MakeIt!" software is really lacking, and there's no linux version.  Instead of exporting gcode and uploading it through wecreat, unlock useful features like framing and just pressing the button in software (and then the physical one). :)
+
+> ## TL;DR [github repo](https://github.com/2ktsch/weburn)
+> Currently runs on Linux... should compile and work for Windows or Mac.
+> You need a null-modem software like tty0tty or com0com
+> 1. [Download weburn here (x86_64)](https://github.com/2ktsch/weburn/tree/main/release)
+> 2. Run weburn-bridge.sh
+> 3. Set up Lightburn with the gcode from WeCreat
+> 4. Modify the start gcode by adding "M14S0" on the line before "M14S1"
+> 5. Point LightBurn to /dev/ttyS30
+> 6. Enjoy!
 
 > **First, some words of caution:** put the device on a private net, sandbox it, whatever.  The security is ABYSMAL.  I had to set up a separate wifi network with downgraded security so that it would even connect...  then checked for open ports and there's 22, 8082 and 8080
 > 
