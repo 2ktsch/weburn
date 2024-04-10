@@ -4,17 +4,19 @@ The "WeCreat MakeIt!" software is really lacking, and there's no linux version. 
 ## [quick demo on youtube](https://youtu.be/16apgy4763g)
 > ## TL;DR [github repo](https://github.com/2ktsch/weburn)
 > Currently runs on Linux... should compile and work for Windows or Mac.
+> UPDATE- works on windows and mac :D (in the releases folder!)
 > You need a null-modem software like tty0tty or com0com
 > 1. [Download weburn here (x86_64)](https://github.com/2ktsch/weburn/tree/main/release)
-> 2. Run weburn-bridge.sh
+> 2. Edit and run weburn-bridge.sh (or weburn-bridge.bat on windows)
 > 3. Set up Lightburn with the gcode from WeCreat
 > 4. Modify the start gcode by adding "M14S0" on the line before "M14S1"
 > 5. Point LightBurn to /dev/ttyS30
 > 6. Enjoy!
 
-> **First, some words of caution:** put the device on a private net, sandbox it, whatever.  The security is ABYSMAL.  I had to set up a separate wifi network with downgraded security so that it would even connect...  then checked for open ports and there's 22, 8082 and 8080
+> **First, some words of caution:** put the device on a private net, sandbox it, whatever. Or reduce the potential attack surface (and your own safety) by only having it powered when you're around and using it. I had to set up a separate wifi network with downgraded security so that it would even connect...  then checked for open ports and there's 22, 8082 and 8080
 > 
-> :rotating_light: **It has all the red flags of early IoT devices**
+> :rotating_light: **It has all the red flags of early IoT devices.**
+> 
 > **22** is ssh (haven't tried/needed to connect)
 > **8082** is a directory listing (Mongoose ?) of the entire filesystem... even /etc/shadow is visible, the ssh config is visible and allowing root password login... ancient kernel... etc.
 > ****8080**** is where the magic happens :D
