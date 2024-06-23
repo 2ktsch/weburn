@@ -41,12 +41,12 @@ def main(laser_ip, laser_port, image_endpoint, adjust_image, fps):
                         image = Image.open(im)
                         # image.show()
                         if adjust_image == "true":
-                            print("Using the calibration isn't implemented yet! Sending raw frame")
+                            print("Using the crop/calibration isn't implemented yet! Sending raw frame")
                             frame = adjust(np.array(image))
                         else:
                             # print('.', end='')
                             frame = np.array(image)
-                        print(str(count)+"                                         ", end="\r")
+                        # print(str(count)+"                                         ", end="\r")
                 except:
                     print(f"couldn't get frame #{count}, sending blank                       ", end="\r") if count%int(fps) == 0 else None
                     pass

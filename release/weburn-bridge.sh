@@ -27,9 +27,15 @@ export FPS=15
 export IMAGE_ENDPOINT=camera/take_photo
 python3 camera/main.py &
 
+CAMERA_PROCESS=$!
+echo "started camera on pid $CAMERA_PROCESS"
+
 # The other end of the null modem
 export SERIAL_PORT=/dev/tnt1 
 # export DEBUG=false
 # export AUTO_CANCEL_BULK_END=false
 
+
 ./weburn
+kill $CAMERA_PROCESS
+echo "All done!"
