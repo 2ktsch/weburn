@@ -5,26 +5,27 @@
 if lsmod | grep -wq "tty0tty"; then
   echo "tty0tty is loaded!"
 else
-  echo "need to load kernel module tty0tty"
+  echo "need to load kernel modules tty0tty and v4l2loopback"
   sudo modprobe tty0tty
+  # comment this out if no need for camera or using OBS Studio:
+  sudo modprobe v4l2loopback
 fi
-
+sleep 1
 echo "need to rename null modem device /dev/tnt0 -> /dev/ttyS30"
-if [[ -f /dev/tnt0 ]] && [[ -f /dev/tnt1 ]]; then
-  sudo mv /dev/tnt0 /dev/ttyS30
-elif [[ ! -f /dev/tnt0 ]]; then
-    echo "/dev/tnt0 seems to be renamed already, cool."
-else
-  echo "don't know what's up with the serial ports... exiting"
-  exit 1
-fi
 
+# this will move the virtual serial port (the end that you connect to LightBurn) to a port name that LightBurn can see
+sudo mv /dev/tnt0 /dev/ttyS30
+sleep 1
 
 # WeCreat Vision ip address (or hostname) -- preferably set to a static address by your router
 export LASER_IP=192.168.1.15
 
-# This is pretty much static but configurable just in case... 
-# export LASER_PORT=8080 
+# comment this next block out if no need for camera (but leave it if using OBS Studio)
+. ./camera/.venv/bin/activate
+export LASER_PORT=8080
+export FPS=15
+export IMAGE_ENDPOINT=camera/take_photo
+python3 camera/main.py &
 
 # The other end of the null modem
 export SERIAL_PORT=/dev/tnt1 

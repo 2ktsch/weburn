@@ -12,6 +12,17 @@ use md5;
 use serde::{Deserialize, Serialize};
 use tokio::time::sleep;
 
+// These are from the new lightburn settings
+const FOCUS: &str = "M13X_Y_\n"; // [u8; 13] = [77, 49, 51, 48, 88, 50, 48, 48, 89, 49, 53, 48, 10];
+const GET_POSITION: &str = "?\n"; // [u8; 2] = [63, 10]);
+const RED_DOT_ON: &str = "M21S1\n"; // [u8; 6] = [77, 50, 49, 83, 49, 10];
+const RED_DOT_OFF: &str = "M21S0\n"; // [u8; 6] = [77, 50, 49, 83, 48, 10];
+const STOP: [u8; 1] = [24]; // [Cancel]
+const PAUSE: &str = "!"; // [u8; 1] = [33];
+const RESUME: &str = "~"; // [u8; 1] = [126];
+const ENABLE_UMODE: &str = "M16\n"; // [u8; 4] = [77, 49, 54, 10];
+const DISABLE_UMODE: &str = "M17\n"; // [u8; 4] = [77, 49, 55, 10];
+const END_GCODE: &str = "M6\n";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>>  {
@@ -59,11 +70,15 @@ async fn main() -> Result<(), Box<dyn Error>>  {
                         break;
                     }
                     let sum = format!("{:x}", md5::compute(body.as_slice())).to_uppercase();
+                    print!("{:?}", body.as_slice());
                     let res = wecreat_client.post(format!("http://{}:{}/test/cmd/mcu?md5={}", laser_ip, laser_port, sum)).body(body).send().await?;
 
                     let j: WeCreatCmdResponse = res.json().await.unwrap();
                     match j.code {
-                        0 => { send_ok(&port); },
+                        0 => {
+                            send_ok(&port);
+                            println!("{:?}", j)
+                        },
                         _ => {}
                     }
                 }
@@ -116,6 +131,12 @@ async fn main() -> Result<(), Box<dyn Error>>  {
                                 send_ok(&port);
                                 // print!("\r{} bytes captured.", body.len());
                                 if from_utf8(cuerpo.as_slice()).expect("wtf?").contains("M2") {
+                                    println!("Looks like that's it.");
+                                    // println!("{} bytes captured.", body.len());
+                                    // modo = Modes::Processing;
+                                    break;
+                                }
+                                if from_utf8(cuerpo.as_slice()).expect("wtf?").contains("M6") {
                                     println!("Looks like that's it.");
                                     // println!("{} bytes captured.", body.len());
                                     // modo = Modes::Processing;
