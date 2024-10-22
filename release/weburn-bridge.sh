@@ -8,7 +8,7 @@ else
   echo "need to load kernel modules tty0tty and v4l2loopback"
   sudo modprobe tty0tty
   # comment this out if no need for camera or using OBS Studio:
-  sudo modprobe v4l2loopback
+  sudo modprobe v4l2loopback devices=1
 fi
 sleep 1
 echo "need to rename null modem device /dev/tnt0 -> /dev/ttyS30"
@@ -26,7 +26,7 @@ export LASER_PORT=8080
 export FPS=15
 export IMAGE_ENDPOINT=camera/take_photo
 python3 camera/main.py &
-
+trap 'kill $CAMERA_PROCESS; echo " All done!"' SIGINT
 CAMERA_PROCESS=$!
 echo "started camera on pid $CAMERA_PROCESS"
 
@@ -37,5 +37,3 @@ export SERIAL_PORT=/dev/tnt1
 
 
 ./weburn
-kill $CAMERA_PROCESS
-echo "All done!"
